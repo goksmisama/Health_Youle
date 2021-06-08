@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "
+        http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youle.dao.SetmealDao">
+    <!--映射多对多的关系查询   Setmeal本身的属性-->
+    <resultMap id="baseResultMap" type="com.youle.pojo.Setmeal">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="code" property="code"></result>
+        <result column="helpCode" property="helpCode"></result>
+        <result column="sex" property="sex"></result>
+        <result column="age" property="age"></result>
+        <result column="price" property="price"></result>
+        <result column="remark" property="remark"></result>
+        <result column="attention" property="attention"></result>
+        <result column="img" property="img"></result>
+    </resultMap>
+    <!--Setmeal 中集合 checkgroup的映射-->
+    <resultMap id="findByIdResultMap" type="com.youle.pojo.Setmeal" extends="baseResultMap">
+        <collection property="checkGroups" ofType="com.youle.pojo.CheckGroup" select="com.youle.dao.CheckGroupDao.findCheckGroupBySetmealId" column="id"></collection>
+    </resultMap>
+
+    <!--添加套餐-->
+    <insert id="add" parameterType="com.youle.pojo.Setmeal">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_setmeal (code,name,sex,age,helpCode,price,remark,attention,img)
+        values (#{code},#{name},#{sex},#{age},#{helpCode},#{price},#{remark},#{attention},#{img})
+    </insert>
+    <!--中间表关联套餐与检查组的id-->
+    <insert id="addSetmealidAndCheckGroupId" parameterType="java.util.Map">
+        insert into t_setmeal_checkgroup (setmeal_id,checkgroup_id) values(#{setmeal_id},#{checkgroup_id})
+    </insert>
+    <!--分页查询，如果没有查询条件，就普通查询-->
+    <select id="findPage" resultType="com.youle.pojo.Setmeal" parameterType="java.lang.String">
+        select * from t_setmeal
+        <if test="value !=null and value !='' and value.length>0 ">
+            where code = #{value} or name = #{value} or helpcode = #{value}
+        </if>
+    </select>
+    <!--根据Id查询-->
+    <select id="findById" parameterType="java.lang.Integer"  resultMap="findByIdResultMap" >
+        select * from t_setmeal where id = #{id}
+    </select>
+    <!--根据套餐ID查询检查组的关联ID-->
+    <select id="findCheckGroupIdBySetmealId" parameterType="Integer" resultType="Integer">
+        select checkgroup_id from t_setmeal_checkgroup where setmeal_id = #{id}
+    </select>
+    <!--修改套餐数据-->
+    <update id="update" parameterType="com.youle.pojo.Setmeal">
+        update t_setmeal
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="helpCode != null">
+                helpCode = #{helpCode},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="attention != null">
+                attention = #{attention},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            <if test="img != null">
+                img = #{img},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <!--删除中间表信息-->
+    <delete id="deleteSetmealIdAndCheckgroupId" parameterType="java.lang.Integer">
+        delete from t_setmeal_checkgroup where setmeal_id = #{id}
+    </delete>
+
+    <!--查询所有套餐列表-->
+    <select id="findAll" resultType="com.youle.pojo.Setmeal">
+        select * from t_setmeal
+    </select>
+
+    <!--套餐名字以及套餐统计数量-->
+    <select id="findSetmealCount" resultType="java.util.Map">
+        select s.name,count(o.id) as value from t_order o,t_setmeal s where o.setmeal_id = s.id group by s.name
+    </select>
+</mapper>

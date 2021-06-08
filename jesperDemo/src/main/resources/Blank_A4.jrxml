@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3752e195-5c14-40f4-9039-59461ea7610f">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="mysql"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<queryString>
+		<![CDATA[select * from t_role]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="t_role"/>
+	</field>
+	<field name="name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="t_role"/>
+	</field>
+	<field name="keyword" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="keyword"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="t_role"/>
+	</field>
+	<field name="description" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="description"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="t_role"/>
+	</field>
+	<variable name="name1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{name}]]></variableExpression>
+	</variable>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{name}]]></groupExpression>
+		<groupHeader>
+			<band height="50"/>
+		</groupHeader>
+		<groupFooter>
+			<band height="50"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="180" splitType="Stretch">
+			<image>
+				<reportElement x="-11" y="-10" width="120" height="144" uuid="49f1147d-801e-47ac-b6d2-3e46a0bf9d2e"/>
+				<imageExpression><![CDATA["http://www.028bdqn.com/uploads/allimg/201016/1-2010161A340920.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="150" y="0" width="190" height="40" uuid="12d11fc2-4fbe-4f1e-830a-fefc931f7cda"/>
+				<textElement textAlignment="Center">
+					<font fontName="微软雅黑" size="26" isBold="true"/>
+				</textElement>
+				<text><![CDATA[老子巨帅]]></text>
+			</staticText>
+			<textField pattern="yyyy年MM月dd日">
+				<reportElement x="410" y="60" width="100" height="30" uuid="4dd685cb-3254-4dff-bcc9-31575def8df1"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="59" splitType="Stretch">
+			<staticText>
+				<reportElement x="17" y="24" width="100" height="30" uuid="c33fd599-75fc-4b13-a585-93c96028408f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="117" y="24" width="100" height="30" uuid="ea6cef0c-6cdb-4759-96d6-85ac22361f56"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="217" y="24" width="100" height="30" uuid="0a8acd27-22d3-4fb7-be58-ba717c86973a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[keyword]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="101" splitType="Stretch">
+			<textField>
+				<reportElement x="17" y="0" width="100" height="30" uuid="8ac5aab6-4c55-469d-990c-efd1405a02ca"/>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="217" y="0" width="100" height="30" uuid="a79f84dd-2d6f-4e03-9bcd-5192860d6cf8"/>
+				<textFieldExpression><![CDATA[$F{keyword}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="0" width="100" height="30" uuid="cf12d098-4add-4ec5-92bf-eb41cc0b8ad4"/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

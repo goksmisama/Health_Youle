@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "
+        http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youle.dao.CheckGroupDao">
+    <!--检查组对应检查项的映射--><!--检查组的映射-->
+    <resultMap id="baseResultMap" type="com.youle.pojo.CheckGroup">
+        <id column="id" property="id"></id>
+        <result column="code" property="code"></result>
+        <result column="name" property="name"></result>
+        <result column="helpCode" property="helpCode"></result>
+        <result column="sex" property="sex"></result>
+        <result column="remark" property="remark"></result>
+        <result column="attention" property="attention"></result>
+    </resultMap>
+    <!--继承checkgroup的映射 用于查询检查组的检查项-->
+    <resultMap id="findByIdResultMap" type="com.youle.pojo.CheckGroup" extends="baseResultMap">
+        <collection property="checkItems" ofType="com.youle.pojo.CheckItem" select="com.youle.dao.CheckItemDao.findCheckItemByCheckGroupId" column="id"></collection>
+    </resultMap>
+    <!--分页查询-->
+    <select id="findPage" parameterType="String" resultType="com.youle.pojo.CheckGroup">
+        select * from t_checkgroup
+        <if test="value != null and value!='' and value.length > 0">
+            where code = #{value} or name = #{value} or helpcode = #{value}
+        </if>
+    </select>
+    <!--添加检查组-->
+    <insert id="add" parameterType="com.youle.pojo.CheckGroup">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_checkgroup(code,name,sex,helpCode,remark,attention) values (#{code},#{name},#{sex},#{helpCode},#{remark},#{attention})
+    </insert>
+    <!--中间表添加-->
+    <insert id="addCheckgroupAndCheckItem" parameterType="java.util.Map">
+        insert into t_checkgroup_checkitem(checkgroup_id,checkitem_id) values (#{checkgroup_id},#{checkitem_id})
+    </insert>
+    <!--根据id查询检查组信息-->
+    <select id="findById" parameterType="java.lang.Integer" resultType="com.youle.pojo.CheckGroup">
+        select * from t_checkgroup where id = #{id}
+    </select>
+    <!--查询检查组包含的检查项id-->
+    <select id="findCheckItemIdsByCheckGroupId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select checkitem_id from t_checkgroup_checkitem where checkgroup_id = #{id}
+    </select>
+    <!--修改检查组信息-->
+    <update id="update" parameterType="com.youle.pojo.CheckGroup">
+        update t_checkgroup
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="helpCode != null">
+                helpCode = #{helpCode},
+            </if>
+            <if test="attention != null">
+                attention = #{attention},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <!--删除中间表信息-->
+    <delete id="deleteCheckgroupAndCheckItem" parameterType="java.lang.Integer">
+        delete from t_checkgroup_checkitem where checkgroup_id = #{id}
+    </delete>
+    <!--删除检查组-->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from t_checkgroup where id = #{id}
+    </delete>
+    <!--查询所有检查组-->
+    <select id="findAll" resultType="com.youle.pojo.CheckGroup">
+        select * from t_checkgroup
+    </select>
+
+    <!--根据套餐Id 查出多个检查组-->
+    <select id="findCheckGroupBySetmealId" resultMap="findByIdResultMap" parameterType="java.lang.Integer">
+        select * from t_checkgroup where id in(select checkgroup_id from t_setmeal_checkgroup where setmeal_id = #{SetmealId})
+    </select>
+</mapper>
