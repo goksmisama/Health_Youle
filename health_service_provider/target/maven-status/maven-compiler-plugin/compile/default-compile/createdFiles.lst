@@ -1,4 +1,6 @@
 com\youle\serviceImpl\ReportServiceImpl.class
+com\youle\dao\MapDao.class
+com\youle\serviceImpl\MapServiceImpl.class
 com\youle\dao\MemberDao.class
 com\youle\serviceImpl\OrderSettingServiceImpl.class
 com\youle\dao\CheckItemDao.class

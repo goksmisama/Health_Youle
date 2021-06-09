@@ -11,6 +11,7 @@ import com.youle.pojo.Order;
 import com.youle.pojo.OrderSetting;
 import com.youle.service.OrderService;
 import com.youle.utils.DateUtils;
+import com.youle.utils.DistributedLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,20 +30,25 @@ public class OrderServiceImpl implements OrderService {
     private MemberDao memberDao;
     @Autowired
     private OrderDao orderDao;
+    @Autowired
+    private DistributedLock distributedLock;
 
     @Override
     public Result order(Map map) throws Exception {
         //检查当前日期是否进行了预约设置 能否进行预约
+        distributedLock.getLock();
         String orderDate = (String) map.get("orderDate");
         Date date = DateUtils.parseString2Date(orderDate);
         OrderSetting orderSetting = orderSettingDao.findByOrderDate(date);
         if (orderSetting == null){
+            distributedLock.releaseLock();
             return new Result(false, MessageConstant.SELECTED_DATE_CANNOT_ORDER);
         }
         //检查预约日期是否预约满了
         int number = orderSetting.getNumber();//可预约人数
         int reservations = orderSetting.getReservations();//已经预约的人数
         if (reservations >=number){
+            distributedLock.releaseLock();
             //预约已满，不能预约了
             return new Result(false,MessageConstant.ORDER_FULL);
         }
@@ -56,6 +62,7 @@ public class OrderServiceImpl implements OrderService {
             Order order = new Order(memberId,date,null,null,setmealId);
             List<Order> list = orderDao.findByCondition(order);
             if (list != null && list.size()>0){
+                distributedLock.releaseLock();
                 //已经完成了预约了，不能重复预约
                 return new Result(false,MessageConstant.HAS_ORDERED);
             }
@@ -76,6 +83,7 @@ public class OrderServiceImpl implements OrderService {
         //保存预约信息到预约表
         Order order = new Order(member.getId(),date, (String) map.get("orderType"),Order.ORDERSTATUS_NO,Integer.parseInt((String) map.get("setmealId")));
         orderDao.add(order);
+        distributedLock.releaseLock();
         return new Result(true,MessageConstant.ORDER_SUCCESS,order.getId());
     }
 

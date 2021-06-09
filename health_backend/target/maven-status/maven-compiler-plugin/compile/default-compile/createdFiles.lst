@@ -2,6 +2,7 @@ com\youle\controller\CheckGroupController.class
 com\youle\controller\SetmealController.class
 com\youle\security\SpringSecurityUserService.class
 com\youle\controller\ReportController.class
+com\youle\controller\MapController.class
 com\youle\controller\OrdersettingController.class
 com\youle\controller\CheckItemController.class
 com\youle\controller\UserController.class
