@@ -2,7 +2,52 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.youle.dao.PermissionDao" >
-<select id="findByRoleId" parameterType="java.lang.Integer" resultType="com.youle.pojo.Permission">
-    select p.* from t_permission p,t_role_permission rp where p.id = rp.permission_id and rp.role_id = #{roleId}
-</select>
+    <select id="findByRoleId" parameterType="java.lang.Integer" resultType="com.youle.pojo.Permission">
+        select p.* from t_permission p,t_role_permission rp where p.id = rp.permission_id and rp.role_id = #{roleId}
+    </select>
+
+    <!--分页查询-->
+    <select id="selectByCondition" parameterType="string" resultType="com.youle.pojo.Permission">
+        select * from t_permission
+        <if test="value != null and value.length > 0">
+            where name like #{value} or keyword like #{value}
+        </if>
+    </select>
+
+    <!--添加-->
+    <insert id="add" parameterType="com.youle.pojo.Permission">
+        insert into t_permission(name,keyword,description) values (#{name},#{keyword},#{description})
+    </insert>
+
+    <!--修改/编辑-->
+    <update id="edit" parameterType="com.youle.pojo.Permission">
+        update  t_permission
+        <set>
+            <if test="name != null"> name = #{name},
+            </if>
+            <if test="keyword != null"> keyword = #{keyword},
+            </if>
+            <if test="description != null"> description = #{description},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--根据ID查询-->
+    <select id="findById" parameterType="Integer" resultType="com.youle.pojo.Permission">
+        select * from t_permission where id = #{id}
+    </select>
+
+    <!--删除-->
+    <delete id="delete" parameterType="java.util.List">
+        delete from t_permission WHERE 1 = 1
+        <foreach collection="list" item="id" open="AND id IN(" separator=", " close=") ">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultType="com.youle.pojo.Permission">
+        select * from t_permission
+    </select>
+
 </mapper>

@@ -15,3 +15,4 @@ com\youle\dao\CheckGroupDao.class
 com\youle\serviceImpl\SetmealServiceImpl.class
 com\youle\dao\OrderDao.class
 com\youle\serviceImpl\checkItemServiceimpl.class
+com\youle\serviceImpl\PermissionServiceImpl.class

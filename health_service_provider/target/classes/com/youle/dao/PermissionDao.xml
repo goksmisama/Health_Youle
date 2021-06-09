@@ -2,7 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.youle.dao.PermissionDao" >
-<select id="findByRoleId" parameterType="java.lang.Integer" resultType="com.youle.pojo.Permission">
-    select p.* from t_permission p,t_role_permission rp where p.id = rp.permission_id and rp.role_id = #{roleId}
-</select>
+    <select id="findByRoleId" parameterType="java.lang.Integer" resultType="com.youle.pojo.Permission">
+        select p.* from t_permission p,t_role_permission rp where p.id = rp.permission_id and rp.role_id = #{roleId}
+    </select>
+
+    <!--分页查询-->
+    <select id="selectByCondition" parameterType="string" resultType="com.youle.pojo.Permission">
+        select * from t_permission
+        <if test="value != null and value.length > 0">
+            where code like #{value} or name like #{value} or helpCode like #{value}
+        </if>
+    </select>
+
 </mapper>

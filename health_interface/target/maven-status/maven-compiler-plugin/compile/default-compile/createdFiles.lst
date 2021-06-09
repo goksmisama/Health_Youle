@@ -2,6 +2,7 @@ com\youle\service\UserService.class
 com\youle\service\ReportService.class
 com\youle\service\OrderSettingService.class
 com\youle\service\MemberService.class
+com\youle\service\PermissionService.class
 com\youle\service\CheckGroupService.class
 com\youle\service\CheckItemService.class
 com\youle\service\OrderService.class
