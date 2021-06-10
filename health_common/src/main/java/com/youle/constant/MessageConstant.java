@@ -68,14 +68,6 @@ public class MessageConstant {
     public static final String GET_BUSINESS_REPORT_FAIL = "获取运营统计数据失败";
     public static final String GET_SETMEAL_LIST_SUCCESS = "查询套餐列表数据成功";
     public static final String GET_SETMEAL_LIST_FAIL = "查询套餐列表数据失败";
-    public static final String ADD_PREMISSION_SUCCESS = "新增权限成功";
-    public static final String ADD_PREMISSION_FAIL = "新增权限失败";
-    public static final String DELETE_PREMISSION_SUCCESS = "新增权限成功";
-    public static final String DELETE_PREMISSION_FAIL = "新增权限失败";
-    public static final String EDIT_PREMISSION_SUCCESS = "新增权限成功";
-    public static final String EDIT_PREMISSION_FAIL = "新增权限失败";
-    public static final String QUERY_PREMISSION_SUCCESS = "查询权限列表数据成功";
-    public static final String QUERY_PREMISSION_FAIL = "查询权限列表数据失败";
-    public static final String QUERY_PREMISSION_ONE_SUCCESS = "查询权限数据成功";
-    public static final String QUERY_PREMISSION_ONE_FAIL = "查询权限数据失败";
+    public static final String DELETE_MAP_FAIL = "删除地址失败";
+    public static final String DELETE_MAP_SUCCESS = "删除地址成功";
 }

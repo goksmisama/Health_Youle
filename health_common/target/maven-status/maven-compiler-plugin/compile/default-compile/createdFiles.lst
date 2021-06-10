@@ -1,5 +1,10 @@
 com\youle\entity\PageResult.class
 com\youle\pojo\Permission.class
+com\youle\utils\ZKCurator.class
+com\youle\utils\ValidateCodeUtils.class
+com\youle\pojo\CheckGroup.class
+com\youle\constant\RedisConstant.class
+com\youle\utils\DistributedLock.class
 com\youle\constant\RedisMessageConstant.class
 com\youle\utils\MD5Utils.class
 com\youle\utils\POIUtils.class
@@ -7,14 +12,13 @@ com\youle\utils\QiniuUtils.class
 com\youle\constant\MessageConstant.class
 com\youle\entity\Result.class
 com\youle\pojo\Setmeal.class
-com\youle\utils\ValidateCodeUtils.class
-com\youle\pojo\CheckGroup.class
+com\youle\utils\DistributedLock$1.class
 com\youle\utils\SMSUtils.class
 com\youle\utils\tenxunUtils.class
 com\youle\utils\DateUtils.class
 com\youle\pojo\Menu.class
 com\youle\pojo\User.class
-com\youle\constant\RedisConstant.class
+com\youle\pojo\Map.class
 com\youle\pojo\Order.class
 com\youle\pojo\CheckItem.class
 com\youle\pojo\Member.class

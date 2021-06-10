@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    <description>zk与spring容器结合 启动项目加载的时候建立与zk的连接</description>
+
+
+    <!-- zookeeper的重试机制 -->
+    <bean id="retryPoliy" class="org.apache.curator.retry.RetryNTimes">
+        <!-- 重试的次数 -->
+        <constructor-arg index="0" value="10"></constructor-arg>
+        <!-- 每次的时间 -->
+        <constructor-arg index="1" value="5000"></constructor-arg>
+    </bean>
+
+    <!-- zookeeper的客户端 -->
+    <bean id="client" class="org.apache.curator.framework.CuratorFrameworkFactory" factory-method="newClient" init-method="start">
+        <!-- zk服务器的地址 集群用,隔开 -->
+        <constructor-arg index="0" value="42.193.49.90:2181"></constructor-arg>
+        <!-- session会话的超时时间  -->
+        <constructor-arg index="1" value="10000"></constructor-arg>
+        <!-- 创建连接的超时时间 -->
+        <constructor-arg index="2" value="5000"></constructor-arg>
+        <!-- 重试策略 -->
+        <constructor-arg index="3" ref="retryPoliy"></constructor-arg>
+    </bean>
+
+    <!--注入zookeeper的客户端-->
+    <bean id="zkCurator" class="com.youle.utils.ZKCurator" init-method="init">
+        <constructor-arg index="0" ref="client"></constructor-arg>
+    </bean>
+    <!--把分布式锁交给spring容器去管理-->
+    <bean id="distributedLock" class="com.youle.utils.DistributedLock" init-method="init">
+        <constructor-arg index="0" ref="client"></constructor-arg>
+    </bean>
+
+</beans>
